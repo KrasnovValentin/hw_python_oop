@@ -20,12 +20,18 @@ class InfoMessage:
                 f"Потрачено ккал: {self.calories:.3f}.")
 
 
-@dataclass
 class Training:
     """Базовый класс тренировки."""
-    action: int
-    duration: float
-    weight: float
+
+    def __init__(self,
+                 action: int,
+                 duration: float,
+                 weight: float
+                 ) -> None:
+        self.action = action
+        self.duration = duration
+        self.weight = weight
+
     LEN_STEP: float = 0.65
     M_IN_KM: float = 1000.
     HOUR_IN_MIN: float = 60.
@@ -56,6 +62,7 @@ class Running(Training):
     """Тренировка: бег."""
     COEF_CAL_RUN_1: float = 18.
     COEF_CAL_RUN_2: float = 20.
+    LEN_STEP: float = 0.65
 
     def get_spent_calories(self) -> float:
         """Получить количество
@@ -72,6 +79,7 @@ class SportsWalking(Training):
     COEF_CAL_WALK_1: float = 0.035
     COEF_CAL_WALK_2: float = 2.
     COEF_CAL_WALK_3: float = 0.029
+    LEN_STEP: float = 0.65
 
     def __init__(self, action, duration, weight, height: float):
         super().__init__(action, duration, weight)
