@@ -16,7 +16,7 @@ class InfoMessage:
         self.speed = speed
         self.calories = calories
 
-    def get_message(self) -> Union[str, float]:
+    def get_message(self) -> str:
         """Вывод сообщения с данными о тренировке"""
         return (f"Тип тренировки: {self.training_type}; "
                 f"Длительность: {self.duration:.3f} ч.; "
@@ -27,6 +27,9 @@ class InfoMessage:
 
 class Training:
     """Базовый класс тренировки."""
+    LEN_STEP: float = 0.65
+    M_IN_KM: float = 1000.
+    HOUR_IN_MIN: float = 60.
 
     def __init__(self,
                  action: int,
@@ -36,10 +39,6 @@ class Training:
         self.action = action
         self.duration = duration
         self.weight = weight
-
-    LEN_STEP: float = 0.65
-    M_IN_KM: float = 1000.
-    HOUR_IN_MIN: float = 60.
 
     def get_distance(self) -> float:
         """Получить дистанцию в км."""
@@ -51,8 +50,7 @@ class Training:
 
     def get_spent_calories(self) -> float:
         """Получить количество затраченных калорий."""
-        raise NotImplementedError('Определите get_spent_calories() в %s'
-                                  % {self.__class__.__name__})
+        return None
 
     def show_training_info(self) -> InfoMessage:
         """Вернуть информационное сообщение о выполненной тренировке."""
@@ -125,8 +123,6 @@ def read_package(workout_type: str, data: List[int]) -> Union[Training, None]:
     """Прочитать данные полученные от датчиков."""
     if workout_type in SP_DICT.keys():
         return SP_DICT[workout_type](*data)
-    else:
-        return None
 
 
 def main(training: Training) -> None:
